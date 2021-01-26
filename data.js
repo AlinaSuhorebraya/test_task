@@ -7,17 +7,17 @@ export function getData(url) {
       return response.json();
     })
     .then((data) => {
-      if (data.value != undefined) {
+      if (data.value) {   
         data.value.map((data) => {
-          data.AddressInfo.length == 0
+          !data.AddressInfo.length
             ? (data.AddressInfo = "no adress")
             : (data.AddressInfo = data.AddressInfo[0].Address);
         });
         return data.value;
       } else {
-        data.AddressInfo.length == 0
+        !data.AddressInfo.length
           ? (data.AddressInfo = "no adress")
-          : (data.AddressInfo = data.AddressInfo[0].Address);
+          : (data.AddressInfo = data.AddressInfo);
       }
       return data;
     })
