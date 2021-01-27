@@ -1,8 +1,6 @@
-import { getData } from "./data.js";
+import { getData } from "../data.js";
 import { RowContent } from "./RowContent.js";
-import {listen} from './action.js'
-
-
+import { listen } from "../action.js";
 
 function Table() {
   const table = document.createElement("table");
@@ -21,7 +19,9 @@ function Table() {
 
   table.innerHTML += str;
 
-  getData('https://services.odata.org/V4/(S(w1mzm3f22b0ivnydrywt1lgx))/TripPinServiceRW/People').then((data) => {
+  getData(
+    "https://services.odata.org/V4/(S(w1mzm3f22b0ivnydrywt1lgx))/TripPinServiceRW/People"
+  ).then((data) => {
     data.forEach((e) => {
       table.append(RowContent(e));
     });

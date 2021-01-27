@@ -1,21 +1,20 @@
-import { getData } from "./data.js";
+import { getData } from "../data.js";
+import { RowContentFullInfo } from "./RowContentFullInfo.js";
 
-export function Description(url) {
+export function FullInfo(url) {
   const container = document.createElement("div");
   container.classList.add("container");
 
   getData(
     `https://services.odata.org/V4/(S(w1mzm3f22b0ivnydrywt1lgx))/TripPinServiceRW/People('${url}')`
   ).then((data) => {
-    console.log("data ", data);
-
+  
     let mainInfo = "";
     let adressInfo = "";
     let adressData = "";
 
-    if(typeof data.AddressInfo === 'string'){
-      adressInfo = data.AddressInfo
-      
+    if (typeof data.AddressInfo === "string") {
+      adressInfo = data.AddressInfo;
     } else {
       adressData = data.AddressInfo.map((e) => ({
         CountryRegion: e.City.CountryRegion,
@@ -26,12 +25,7 @@ export function Description(url) {
 
       adressData.forEach((e) => {
         Object.entries(e).forEach((el) => {
-          adressInfo += `
-      <tr>
-        <td >${el[0]}</td>
-        <td>${el[1]}</td>
-      </tr>
-    `;
+          adressInfo += RowContentFullInfo(el[0], el[1]);
         });
       });
     }
@@ -39,14 +33,8 @@ export function Description(url) {
     Object.entries(data).forEach((e) => {
       if (e[0] === "AddressInfo") return null;
 
-      mainInfo += `
-    <tr>
-      <td >${e[0]}</td>
-      <td>${e[1]}</td>
-    </tr>
- `;
+      mainInfo += RowContentFullInfo(e[0], e[1]);
     });
-   
 
     container.insertAdjacentHTML(
       "beforeend",
